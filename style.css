@@ -20,14 +20,7 @@ body {
 .hero {
   position: relative;
   min-height: 80vh;
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.35),
-      rgba(0, 0, 0, 0.45)
-    ),
-    url("/landinghacpoloma.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: linear-gradient(135deg, #003da5, #d71920);
   display: flex;
   align-items: center;
   justify-content: center;
