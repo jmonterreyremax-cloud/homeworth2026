@@ -32,7 +32,7 @@ body {
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .hero-content {
@@ -67,6 +67,12 @@ body {
   font-weight: bold;
   padding: 14px 24px;
   border-radius: 8px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cta-button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
 }
 
 .benefits {
@@ -126,33 +132,53 @@ body {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-.lead-form {
+.lead-form-wrapper {
   background: #ffffff;
   padding: 28px;
   border-radius: 12px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
 }
 
-.lead-form label {
-  display: block;
-  margin-bottom: 6px;
-  margin-top: 14px;
-  font-weight: bold;
+.custom-capsule-form {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  width: 100%;
 }
 
-.lead-form input,
-.lead-form select,
-.lead-form textarea {
+.custom-capsule-form .capsule-form__row {
+  margin-bottom: 14px;
+}
+
+.custom-capsule-form .capsule-form__field {
+  width: 100%;
+}
+
+.custom-capsule-form .capsule-form__label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #222;
+}
+
+.custom-capsule-form .capsule-form__input {
   width: 100%;
   padding: 12px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
+  background: #fff;
+  color: #222;
 }
 
-.lead-form button {
+.custom-capsule-form textarea.capsule-form__input {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.custom-capsule-form .capsule-form__submit {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 14px;
   border: none;
   border-radius: 8px;
@@ -161,22 +187,30 @@ body {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.lead-form button:hover {
+.custom-capsule-form .capsule-form__submit:hover {
   opacity: 0.95;
+  transform: translateY(-1px);
 }
 
-.form-note {
-  margin-top: 12px;
+.custom-capsule-form .capsule-form__divider {
+  margin: 20px 0;
+}
+
+.custom-capsule-form .capsule-form__branding {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
   font-size: 0.9rem;
   color: #666;
 }
 
-.success-message {
-  margin-top: 14px;
-  color: green;
-  font-weight: bold;
+.custom-capsule-form .capsule-form__branding img {
+  height: 18px;
+  width: auto;
 }
 
 footer {
@@ -194,5 +228,9 @@ footer {
 
   .hero h1 {
     font-size: 2.2rem;
+  }
+
+  .lead-form-wrapper {
+    padding: 22px;
   }
 }
