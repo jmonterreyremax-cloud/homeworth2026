@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Out What Your Home Is Worth | John Monterrey REALTOR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <p class="top-tag">RE/MAX Puerto Rico</p>
+      <h1>Find Out What Your Home Is Worth</h1>
+      <p class="subtitle">
+        Get a personalized property value review and expert guidance for selling your home in Puerto Rico.
+      </p>
+      <a href="#lead-form" class="cta-button">Request Your Home Value Review</a>
+    </div>
+  </header>
 
+  <main>
+    <section class="benefits">
+      <div class="container">
+        <h2>Why Request a Home Value Review?</h2>
+        <div class="benefit-grid">
+          <div class="card">
+            <h3>Local Market Insight</h3>
+            <p>Get guidance based on current market activity and neighborhood demand.</p>
+          </div>
+          <div class="card">
+            <h3>Better Pricing Strategy</h3>
+            <p>Learn how to position your property to attract serious buyers.</p>
+          </div>
+          <div class="card">
+            <h3>Professional Support</h3>
+            <p>Work with an experienced REALTOR focused on helping sellers maximize results.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section" id="lead-form">
+      <div class="container form-container">
+        <div class="form-text">
+          <h2>Request Your Free Seller Consultation</h2>
+          <p>
+            Fill out the form below and I’ll reach out to discuss your property,
+            current market conditions, and the next steps to sell successfully.
+          </p>
+
+          <div class="agent-box">
+            <h3>John Monterrey</h3>
+            <p>REALTOR® | RE/MAX Puerto Rico</p>
+            <p>Email: john.monterrey@remax.net</p>
+            <p>Phone: 787-378-2652</p>
+          </div>
+        </div>
+
+        <form class="lead-form" id="sellerForm">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(787) 000-0000" required />
+
+          <label for="address">Property Address</label>
+          <input type="text" id="address" name="address" placeholder="Street, City, Puerto Rico" required />
+
+          <label for="timeline">When are you thinking about selling?</label>
+          <select id="timeline" name="timeline">
+            <option value="">Select an option</option>
+            <option>Immediately</option>
+            <option>Within 30 days</option>
+            <option>Within 3 months</option>
+            <option>Within 6 months</option>
+            <option>Just exploring options</option>
+          </select>
+
+          <label for="message">Additional Details</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            placeholder="Tell me about the property, condition, upgrades, or any questions you have."
+          ></textarea>
+
+          <button type="submit">Submit Request</button>
+          <p class="form-note">Your information will only be used to contact you about your property inquiry.</p>
+          <p id="successMessage" class="success-message"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 John Monterrey | RE/MAX Puerto Rico</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
