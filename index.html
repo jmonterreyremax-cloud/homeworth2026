@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Out What Your Home Is Worth | John Monterrey REALTOR</title>
+
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://capsulecrm.com/assets/capsule-form.css" />
 </head>
 <body>
   <header class="hero">
@@ -40,7 +42,7 @@
       </div>
     </section>
 
-    <section class="form-section" id="sellerForm">
+    <section class="form-section" id="lead-form">
       <div class="container form-container">
         <div class="form-text">
           <h2>Request Your Free Seller Consultation</h2>
@@ -57,198 +59,95 @@
           </div>
         </div>
 
-        <form class="lead-form" id="sellerForm">        
-      <link rel="stylesheet" href="https://capsulecrm.com/assets/capsule-form.css">
+        <div class="lead-form-wrapper">
+          <form class="capsule-form custom-capsule-form" action="https://service.capsulecrm.com/service/newlead" accept-charset="UTF-8" method="post">
+            <input name="FORM_ID" type="hidden" value="32cb3d04-f38a-4be8-92ab-e2b0b6104c2d">
+            <input name="TAG" type="hidden" value="GitHub Landing Page">
+            <input name="DATE_FORMAT" type="hidden" value="MM-dd-yy">
+            <input name="CREATE_CHECK_TASK" type="hidden" value="true">
+            <input name="SEND" type="hidden" value="true">
+            <input name="REVIEW_ID" type="hidden" value="706927">
 
-      <form class="capsule-form" action="https://service.capsulecrm.com/service/newlead" accept-charset="UTF-8" method="post">
-        <input name="FORM_ID" type="hidden" value="32cb3d04-f38a-4be8-92ab-e2b0b6104c2d">
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">
+                  First Name
+                  <span class="capsule-form__required" aria-label="Required">*</span>
+                </span>
+                <input class="capsule-form__input" name="FIRST_NAME" required type="text">
+              </label>
 
-<!---->
-<!---->
-          <input name="TAG" type="hidden" value="GitHub Landing Page">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">Last Name</span>
+                <input class="capsule-form__input" name="LAST_NAME" type="text">
+              </label>
+            </div>
 
-          <input name="DATE_FORMAT" type="hidden" value="MM-dd-yy">
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">Email Address</span>
+                <input class="capsule-form__input" name="EMAIL" type="text">
+              </label>
+            </div>
 
-          <input name="CREATE_CHECK_TASK" type="hidden" value="true">
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">Phone</span>
+                <input class="capsule-form__input" name="PHONE" type="text">
+              </label>
+            </div>
 
-          <input name="SEND" type="hidden" value="true">
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">Street</span>
+                <input class="capsule-form__input" name="STREET" type="text">
+              </label>
+            </div>
 
-          <input name="REVIEW_ID" type="hidden" value="706927">
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--text">
+                <span class="capsule-form__label">City / Town</span>
+                <input class="capsule-form__input" name="CITY" type="text">
+              </label>
+            </div>
 
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        First Name
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--textarea">
+                <span class="capsule-form__label">Message</span>
+                <textarea class="capsule-form__input" name="NOTE"></textarea>
+              </label>
+            </div>
 
-          <span class="capsule-form__required" aria-label="Required">
-            *
-          </span>
-      </span>
+            <div class="capsule-form__divider"></div>
 
-        <input class="capsule-form__input" name="FIRST_NAME" required="" type="text">
-          </label>
-  
+            <div class="capsule-form__row">
+              <label class="capsule-form__field capsule-form__field--list">
+                <span class="capsule-form__label">When are you thinking about selling?</span>
+                <select class="capsule-form__input" name="CUSTOMFIELD[When are you thinking about selling?]">
+                  <option value="">Select an option</option>
+                  <option value="Immediately">Immediately</option>
+                  <option value="Within 30 days">Within 30 days</option>
+                  <option value="Within 3 months">Within 3 months</option>
+                  <option value="Within 6 months">Within 6 months</option>
+                  <option value="Just exploring options">Just exploring options</option>
+                </select>
+              </label>
+            </div>
 
-              
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        Last Name
+            <div class="capsule-form__row">
+              <button class="capsule-form__submit" type="submit">
+                Submit Form
+              </button>
+            </div>
 
-<!---->      </span>
+            <div class="capsule-form__divider"></div>
 
-        <input class="capsule-form__input" name="LAST_NAME" type="text">
-          </label>
-  
-          
-  </div>
-
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        Email Address
-
-<!---->      </span>
-
-        <input class="capsule-form__input" name="EMAIL" type="text">
-          </label>
-  
-
-<!---->          
-  </div>
-
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        Phone
-
-<!---->      </span>
-
-        <input class="capsule-form__input" name="PHONE" type="text">
-          </label>
-  
-
-<!---->          
-  </div>
-
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        Street
-
-<!---->      </span>
-
-        <input class="capsule-form__input" name="STREET" type="text">
-          </label>
-  
-
-<!---->          
-  </div>
-
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--text">
-<!---->
-      <span class="capsule-form__label">
-        City / Town
-
-<!---->      </span>
-
-        <input class="capsule-form__input" name="CITY" type="text">
-          </label>
-  
-
-<!---->          
-  </div>
-
-          
-  <div class="capsule-form__row">
-    
-            
-    <label class="capsule-form__field capsule-form__field--textarea">
-<!---->
-      <span class="capsule-form__label">
-        Message
-
-<!---->      </span>
-
-        <textarea class="capsule-form__input" name="NOTE"></textarea>
-    </label>
-  
-
-<!---->          
-  </div>
-
-
-          
-  <div class="capsule-form__divider"></div>
-
-
-            
-  <div class="capsule-form__row">
-    
-              
-    <label class="capsule-form__field capsule-form__field--list">
-<!---->
-      <span class="capsule-form__label">
-        When are you thinking about selling?
-
-<!---->      </span>
-
-        <select class="capsule-form__input" name="CUSTOMFIELD[When are you thinking about selling?]">
-            <option value="">Select an option</option>
-
-            <option value="Immediately">Immediately</option>
-            <option value="Within 30 days">Within 30 days</option>
-            <option value="Within 3 months">Within 3 months</option>
-            <option value="Within 6 months">Within 6 months</option>
-            <option value="Just exploring options">Just exploring options</option>
-        </select>
-    </label>
-  
-            
-  </div>
-
-
-        
-  <div class="capsule-form__row">
-    
-          <button class="capsule-form__submit" type="submit">
-            Submit Form
-          </button>
-        
-  </div>
-
-
-          
-  <div class="capsule-form__divider"></div>
-
-
-          <a class="capsule-form__branding" href="https://capsulecrm.com/" target="_blank" rel="noopener">
-            Powered by
-
-            <img src="https://cdn.capsulecrm.com/web-form/capsule-logotype.svg" alt="Capsule">
-          </a>
-      </form>
-    
+            <a class="capsule-form__branding" href="https://capsulecrm.com/" target="_blank" rel="noopener">
+              Powered by
+              <img src="https://cdn.capsulecrm.com/web-form/capsule-logotype.svg" alt="Capsule">
+            </a>
+          </form>
+        </div>
       </div>
     </section>
   </main>
