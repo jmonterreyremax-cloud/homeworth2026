@@ -21,30 +21,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!nameField || !emailField || !phoneField || !addressField || !timelineField || !messageField) {
       console.error("One or more form fields were not found. Check your HTML ids.");
+      if (successMessage) {
+        successMessage.textContent = "Form configuration error. Please check the field IDs.";
+      }
       return;
     }
 
-    const payload = {
-      full_name: nameField.value.trim(),
-      email: emailField.value.trim(),
-      phone: phoneField.value.trim(),
-      property_address: addressField.value.trim(),
-      timeline: timelineField.value,
-      notes: messageField.value.trim(),
-      source: "GitHub Seller Landing Page"
-    };
+    const formData = new FormData();
+    formData.append("full_name", nameField.value.trim());
+    formData.append("email", emailField.value.trim());
+    formData.append("phone", phoneField.value.trim());
+    formData.append("property_address", addressField.value.trim());
+    formData.append("timeline", timelineField.value);
+    formData.append("notes", messageField.value.trim());
+    formData.append("source", "GitHub Seller Landing Page");
 
     try {
       const response = await fetch(webhookUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
+        body: formData
       });
 
       if (!response.ok) {
-        throw new Error("Webhook request failed");
+        throw new Error("Webhook request failed with status " + response.status);
       }
 
       if (successMessage) {
@@ -54,11 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       form.reset();
     } catch (error) {
+      console.error("Submission error:", error);
+
       if (successMessage) {
         successMessage.textContent =
           "There was a problem submitting your request. Please try again.";
       }
-      console.error("Submission error:", error);
     }
   });
 });
