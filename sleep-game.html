@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Drift — Sleep Game</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #05050f;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: Georgia, 'Times New Roman', serif;
+  cursor: none;
+  user-select: none;
+}
+
+/* ---- Stars ---- */
+.star {
+  position: fixed;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0; transform: scale(0.7); }
+  50%     { opacity: var(--bright); transform: scale(1); }
+}
+
+/* ---- Moon ---- */
+.moon {
+  position: fixed;
+  top: 42px;
+  right: 72px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #fffde8, #f0d88a);
+  box-shadow:
+    0 0 28px 10px rgba(255,240,140,.22),
+    0 0 80px 30px rgba(255,240,140,.08);
+  animation: moonPulse 7s ease-in-out infinite;
+}
+@keyframes moonPulse {
+  0%,100% { box-shadow: 0 0 28px 10px rgba(255,240,140,.22), 0 0 80px 30px rgba(255,240,140,.08); }
+  50%     { box-shadow: 0 0 40px 16px rgba(255,240,140,.34), 0 0 110px 45px rgba(255,240,140,.13); }
+}
+
+/* ---- Ground ---- */
+.ground {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: linear-gradient(to top, #0a1408 0%, #0c1a0a 60%, transparent 100%);
+}
+
+/* ---- Fence ---- */
+.fence {
+  position: fixed;
+  bottom: 48px; left: 0; right: 0;
+  height: 36px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fence-svg { width: 100%; height: 36px; }
+
+/* ---- Sheep ---- */
+#sheep-container {
+  position: fixed;
+  bottom: 64px; left: 0; right: 0;
+  height: 130px;
+  pointer-events: none;
+}
+.sheep-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: -120px;
+  pointer-events: all;
+  cursor: pointer;
+  animation: walkAcross linear forwards;
+}
+@keyframes walkAcross {
+  0%   { right: -120px; opacity: 0; }
+  4%   { opacity: 1; }
+  96%  { opacity: 1; }
+  100% { right: calc(100vw + 140px); opacity: 0; }
+}
+.sheep-wrapper:hover svg { filter: drop-shadow(0 0 10px rgba(200,170,255,.9)); }
+
+.leg { transform-origin: top center; }
+.front-legs { animation: stepFront 0.6s ease-in-out infinite alternate; }
+.back-legs  { animation: stepBack  0.6s ease-in-out infinite alternate; }
+@keyframes stepFront {
+  from { transform: rotate(-12deg) translateX(2px); }
+  to   { transform: rotate(12deg) translateX(-2px); }
+}
+@keyframes stepBack {
+  from { transform: rotate(12deg) translateX(-2px); }
+  to   { transform: rotate(-12deg) translateX(2px); }
+}
+
+/* ---- Floating particles ---- */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  animation: floatUp 3.5s ease-out forwards;
+  z-index: 30;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(.7) rotate(0deg); opacity: .8; }
+  100% { transform: translateY(-130px) scale(1.2) rotate(25deg); opacity: 0; }
+}
+
+/* ---- Breathing orb ---- */
+#breathing {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 20;
+}
+.breath-orb {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(170,130,255,.35), rgba(90,60,160,.12));
+  border: 1.5px solid rgba(170,130,255,.28);
+  box-shadow: 0 0 22px rgba(140,90,255,.18);
+  animation: breathCycle 12s ease-in-out infinite;
+}
+@keyframes breathCycle {
+   0%  { transform: scale(1);   box-shadow: 0 0 16px rgba(140,90,255,.14); }
+  33%  { transform: scale(1.7); box-shadow: 0 0 32px rgba(120,160,255,.30); }
+  50%  { transform: scale(1.7); box-shadow: 0 0 32px rgba(120,160,255,.30); }
+  83%  { transform: scale(1);   box-shadow: 0 0 16px rgba(140,90,255,.14); }
+  100% { transform: scale(1);   box-shadow: 0 0 16px rgba(140,90,255,.14); }
+}
+.breath-label {
+  color: rgba(200,180,255,.44);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  min-width: 90px;
+  text-align: center;
+}
+
+/* ---- Counter ---- */
+#counter {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(220,210,255,.38);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  z-index: 20;
+  transition: color .5s;
+}
+
+/* ---- Title ---- */
+#game-title {
+  position: fixed;
+  top: 24px;
+  right: 150px;
+  color: rgba(200,180,255,.18);
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  z-index: 20;
+}
+
+/* ---- Message ---- */
+#message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(220,200,255,0);
+  font-size: 18px;
+  letter-spacing: 2.5px;
+  text-align: center;
+  z-index: 25;
+  transition: color 2s ease;
+  pointer-events: none;
+  text-shadow: 0 0 30px rgba(180,140,255,.6);
+}
+
+/* ---- Sleep overlay ---- */
+#sleep-overlay {
+  position: fixed;
+  inset: 0;
+  background: #020208;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* ---- Custom cursor ---- */
+#cursor {
+  position: fixed;
+  width: 18px; height: 18px;
+  border: 1.5px solid rgba(200,170,255,.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform .08s ease, background .1s;
+  mix-blend-mode: screen;
+}
+#cursor.clicking {
+  transform: translate(-50%, -50%) scale(1.6);
+  background: rgba(200,170,255,.15);
+}
+</style>
+</head>
+<body>
+
+<div class="moon"></div>
+<div id="stars"></div>
+
+<div id="sheep-container"></div>
+
+<div class="fence">
+  <svg class="fence-svg" preserveAspectRatio="none" viewBox="0 0 1440 36" xmlns="http://www.w3.org/2000/svg">
+    <rect y="14" width="1440" height="3" rx="1" fill="rgba(120,100,80,.35)"/>
+    <rect y="22" width="1440" height="3" rx="1" fill="rgba(120,100,80,.25)"/>
+    <script type="text/javascript">
+    (function(){
+      var svg = document.currentScript.closest('svg');
+      for(var i=0;i<1440;i+=36){
+        var r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+        r.setAttribute('x',i+1); r.setAttribute('y',2);
+        r.setAttribute('width',4); r.setAttribute('height',32);
+        r.setAttribute('rx',2);
+        r.setAttribute('fill','rgba(130,108,82,.30)');
+        svg.appendChild(r);
+      }
+    })();
+    </script>
+  </svg>
+</div>
+
+<div class="ground"></div>
+<div id="sleep-overlay"></div>
+
+<div id="counter">0 sheep</div>
+<div id="game-title">Dream Drift</div>
+
+<div id="breathing">
+  <div class="breath-orb"></div>
+  <div class="breath-label" id="breath-label">breathe in</div>
+</div>
+
+<div id="message"></div>
+<div id="cursor"></div>
+
+<script>
+// ---- Stars ----
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 200; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2.2 + 0.4;
+  s.style.cssText =
+    `left:${Math.random()*100}%;top:${Math.random()*72}%;` +
+    `width:${sz}px;height:${sz}px;` +
+    `--dur:${(Math.random()*4+2).toFixed(1)}s;` +
+    `--delay:${(Math.random()*6).toFixed(1)}s;` +
+    `--bright:${(Math.random()*0.45+0.35).toFixed(2)};`;
+  starsEl.appendChild(s);
+}
+
+// ---- Custom cursor ----
+const cursorEl = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursorEl.style.left = e.clientX + 'px';
+  cursorEl.style.top  = e.clientY + 'px';
+});
+document.addEventListener('mousedown', () => cursorEl.classList.add('clicking'));
+document.addEventListener('mouseup',   () => cursorEl.classList.remove('clicking'));
+
+// ---- Sheep ----
+let sheepCount = 0;
+const counterEl = document.getElementById('counter');
+const sheepContainer = document.getElementById('sheep-container');
+
+function makeSheepSVG() {
+  return `<svg width="96" height="70" viewBox="0 0 96 70" xmlns="http://www.w3.org/2000/svg">
+  <!-- fluffy body blobs -->
+  <ellipse cx="44" cy="32" rx="27" ry="18" fill="#dbd6f2"/>
+  <circle  cx="30" cy="26" r="12" fill="#eceaff"/>
+  <circle  cx="44" cy="20" r="13" fill="#eceaff"/>
+  <circle  cx="57" cy="24" r="11" fill="#eceaff"/>
+  <circle  cx="27" cy="34" r="10" fill="#e4e0f8"/>
+  <circle  cx="50" cy="35" r="11" fill="#e4e0f8"/>
+  <circle  cx="38" cy="38" r="10" fill="#e4e0f8"/>
+  <!-- head -->
+  <ellipse cx="72" cy="28" rx="14" ry="12" fill="#ccc6e8"/>
+  <!-- snout -->
+  <ellipse cx="79" cy="31" rx="8" ry="6" fill="#bbb4d8"/>
+  <!-- nostril -->
+  <circle  cx="77" cy="32" r="1.2" fill="#9a90c0"/>
+  <circle  cx="81" cy="32" r="1.2" fill="#9a90c0"/>
+  <!-- eye -->
+  <circle  cx="74" cy="25" r="2.4" fill="#251640"/>
+  <circle  cx="73.3" cy="24.4" r="0.8" fill="white"/>
+  <!-- ear -->
+  <ellipse cx="65" cy="18" rx="4.5" ry="7" fill="#bbb4d8" transform="rotate(-18 65 18)"/>
+  <!-- back legs -->
+  <g class="back-legs">
+    <rect x="26" y="48" width="8" height="16" rx="4" fill="#bbb4d8"/>
+    <rect x="38" y="48" width="8" height="16" rx="4" fill="#bbb4d8"/>
+  </g>
+  <!-- front legs -->
+  <g class="front-legs">
+    <rect x="50" y="48" width="8" height="16" rx="4" fill="#bbb4d8"/>
+    <rect x="60" y="48" width="8" height="16" rx="4" fill="#bbb4d8"/>
+  </g>
+  <!-- tail -->
+  <circle cx="18" cy="32" r="7" fill="#eceaff"/>
+</svg>`;
+}
+
+function spawnSheep() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'sheep-wrapper';
+  const duration = Math.random() * 22 + 26; // 26-48s
+  const scale    = Math.random() * 0.35 + 0.68;
+  const bottom   = Math.random() * 18;
+  wrapper.style.cssText =
+    `animation-duration:${duration}s;` +
+    `transform:scale(${scale});` +
+    `bottom:${bottom}px;`;
+  wrapper.innerHTML = makeSheepSVG();
+
+  wrapper.addEventListener('click', e => {
+    sheepCount++;
+    counterEl.textContent = sheepCount + (sheepCount === 1 ? ' sheep' : ' sheep');
+    counterEl.style.color = 'rgba(230,215,255,.65)';
+    setTimeout(() => { counterEl.style.color = 'rgba(220,210,255,.38)'; }, 800);
+
+    // floating particles
+    spawnParticle(e.clientX, e.clientY, '✦', 15);
+    spawnParticle(e.clientX + 12, e.clientY - 8, 'zzz', 13);
+
+    // milestone messages
+    const msgs = {5:'getting sleepy…',10:'eyes growing heavy…',20:'let your mind drift…',
+                  30:'softer… slower…',50:'sweet dreams ✨',100:'goodnight 🌙'};
+    if (msgs[sheepCount]) showMessage(msgs[sheepCount]);
+  });
+
+  sheepContainer.appendChild(wrapper);
+  wrapper.addEventListener('animationend', () => wrapper.remove());
+}
+
+function scheduleSheep() {
+  spawnSheep();
+  setTimeout(scheduleSheep, Math.random() * 5000 + 4500);
+}
+setTimeout(scheduleSheep, 800);
+
+// ---- Particles ----
+function spawnParticle(x, y, text, size) {
+  const el = document.createElement('div');
+  el.className = 'particle';
+  el.textContent = text;
+  el.style.cssText =
+    `left:${x}px;top:${y}px;` +
+    `font-size:${size}px;` +
+    `color:rgba(200,175,255,.75);` +
+    `animation-duration:${3 + Math.random()}s;`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4500);
+}
+
+// Periodic moon ZZZs
+function moonZzz() {
+  const moon = document.querySelector('.moon').getBoundingClientRect();
+  spawnParticle(moon.left + 10 + Math.random() * 30, moon.top + 15, ['z','zz','zzz'][Math.floor(Math.random()*3)], 11 + Math.random()*8);
+}
+setInterval(moonZzz, 3500);
+
+// ---- Breathing label ----
+const breathLabel = document.getElementById('breath-label');
+const CYCLE = 12000; // 12s total: 4 in, 2 hold, 4 out, 2 hold
+const PHASES = [
+  { label: 'breathe in',  end: 4000 },
+  { label: 'hold',        end: 6000 },
+  { label: 'breathe out', end: 10000 },
+  { label: 'hold',        end: 12000 },
+];
+const cycleStart = Date.now();
+function updateBreath() {
+  const t = (Date.now() - cycleStart) % CYCLE;
+  for (const p of PHASES) {
+    if (t < p.end) { breathLabel.textContent = p.label; break; }
+  }
+}
+setInterval(updateBreath, 300);
+
+// ---- Message ----
+const messageEl = document.getElementById('message');
+let msgTimer;
+function showMessage(text) {
+  clearTimeout(msgTimer);
+  messageEl.textContent = text;
+  messageEl.style.color = 'rgba(220,200,255,.52)';
+  msgTimer = setTimeout(() => {
+    messageEl.style.transition = 'color 3s ease';
+    messageEl.style.color = 'rgba(220,200,255,0)';
+  }, 4000);
+}
+
+// ---- Gradually deepen darkness ----
+const overlay = document.getElementById('sleep-overlay');
+let darkness = 0;
+function deepenDarkness() {
+  darkness = Math.min(darkness + 0.09, 0.88);
+  overlay.style.transition = 'opacity 55s linear';
+  overlay.style.opacity = darkness;
+  if (darkness < 0.88) setTimeout(deepenDarkness, 55000);
+}
+setTimeout(deepenDarkness, 90000); // start after 90 seconds
+</script>
+</body>
+</html>
